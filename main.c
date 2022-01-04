@@ -87,7 +87,7 @@ void	validate_tetrimino(t_tetrimino *tetrimino)
 		row = tetrimino->coords[i];
 		col = tetrimino->coords[i+1];
 		printf("row: %d, col: %d\tprevrow: %d, prevcol: %d\n", row, col, prevrow, prevcol);
-		if (row - prevrow != 1 || col - prevcol != 1)
+		if (row + ft_abs(col) != 1)
 			printf("gap between blocks\n");
 		i += 2;
 	}

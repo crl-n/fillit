@@ -52,10 +52,10 @@ void	validate_line(char *line, size_t line_no, t_tetrimino *tetrimino)
 					tetrimino->coords[5] = j - prev[1];
 				}
 				prev[1] = j;
+				prev[0] =  (int) (line_no % 5) - 1;
 			}
 			j++;
 		}
-		prev[0] =  (int) (line_no % 5) - 1;
 		if (j != 4)
 			invalid_input("too short line");
 	}
@@ -69,6 +69,28 @@ t_tetrimino	*new_tetrimino(void)
 	if (!tetrimino)
 		return (NULL);
 	return (tetrimino);
+}
+
+void	validate_tetrimino(t_tetrimino *tetrimino)
+{
+	size_t	i;
+	int		row;
+	int		col;
+	int		prevrow;
+	int		prevcol;
+
+	i = 0;
+	prevrow = 0;
+	prevcol = 0;
+	while (i < 6)
+	{
+		row = tetrimino->coords[i];
+		col = tetrimino->coords[i+1];
+		printf("row: %d, col: %d\tprevrow: %d, prevcol: %d\n", row, col, prevrow, prevcol);
+		if (row - prevrow != 1 || col - prevcol != 1)
+			printf("gap between blocks\n");
+		i += 2;
+	}
 }
 
 void	get_tetriminos(char *filename, t_tetrimino **tetriminos)
@@ -87,8 +109,9 @@ void	get_tetriminos(char *filename, t_tetrimino **tetriminos)
 	tetriminos[0] = new_tetrimino();
 	while (1)
 	{
-		if (line_no % 5 == 0)
+		if (line_no % 5 == 0) // Empty line between tetriminos
 		{
+			validate_tetrimino(tetriminos[i]);
 			i++;
 			tetriminos[i] = new_tetrimino();
 		}
@@ -99,7 +122,7 @@ void	get_tetriminos(char *filename, t_tetrimino **tetriminos)
 			exit(1);
 		validate_line(line, line_no, tetriminos[i]);
 		line_no++;
-	}
+	} 
 }
 
 void	free_tetriminos(t_tetrimino **tetriminos)
@@ -111,7 +134,26 @@ void	free_tetriminos(t_tetrimino **tetriminos)
 		free(tetriminos[i++]);
 }
 
-int	main(int argc, char **argv)
+void	print_tetriminos(t_tetrimino **tetriminos)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	while (tetriminos[i])
+	{
+		j = 0;
+		while (j < 6)
+		{
+			printf("%d, ", tetriminos[i]->coords[j]);
+			j++;
+		}
+		i++;
+		printf("\n");
+	}
+}
+
+int		main(int argc, char **argv)
 {
 	t_tetrimino	*tetriminos[26];
 
@@ -120,7 +162,9 @@ int	main(int argc, char **argv)
 		ft_putstr(USAGE);
 		return (1);
 	}
+	ft_bzero(tetriminos, sizeof(t_tetrimino	*) * 26);
 	get_tetriminos(argv[1], tetriminos);
+	print_tetriminos(tetriminos);
 	free_tetriminos(tetriminos);
 	return (0);
 }

@@ -37,11 +37,12 @@ int		tetrimino_fits(t_tetrimino *tetrimino, t_grid *grid, size_t k, size_t l)
 		{
 			while (j > 0)
 			{
+				j -= 2;
 				row = k + tetrimino->coords[j];
 				col = l + tetrimino->coords[j + 1];
 				grid->grid[row][col] = '.';
-				j -= 2;
 			}
+			grid->grid[k][l] = '.';
 			return (0);
 		}
 		grid->grid[row][col] = tetrimino->symbol;
@@ -56,6 +57,8 @@ void	remove_tetrimino(t_tetrimino *tetrimino, t_grid *grid, size_t k, size_t l)
 	size_t	row;
 	size_t	col;
 
+	printf("removing tetrimino, grid before:\n");
+	display_grid(grid);
 	j = 0;
 	while (j < 7)
 	{
@@ -64,6 +67,8 @@ void	remove_tetrimino(t_tetrimino *tetrimino, t_grid *grid, size_t k, size_t l)
 		grid->grid[row][col] = '.';
 		j += 2;
 	}
+		printf("grid after:\n");
+		display_grid(grid);
 }
 
 void	display_solution(t_grid *grid)
@@ -83,10 +88,13 @@ void	check_if_solved(t_tetrimino *tetrimino, t_tetrimino **tetriminos, t_grid *g
 {
 	if (!tetrimino)
 	{
-		display_solution(grid);
+		printf("solved:\n");
+		display_solution_prettier(grid);
+		//display_solution(grid);
 		free_tetriminos(tetriminos);
 		exit(0);
 	}
+	//printf("there is a tetrimino here\n");
 }
 
 void	try_solution(t_grid *grid, t_tetrimino **tetriminos, size_t i)
@@ -94,7 +102,10 @@ void	try_solution(t_grid *grid, t_tetrimino **tetriminos, size_t i)
 	size_t	k;
 	size_t	l;
 
+	printf("here\n");
+	
 	check_if_solved(tetriminos[i], tetriminos, grid);
+	//return ;
 	k = 0;
 	l = 0;
 	while (k < grid->grid_size)
@@ -105,7 +116,12 @@ void	try_solution(t_grid *grid, t_tetrimino **tetriminos, size_t i)
 			{
 				if (tetrimino_fits(tetriminos[i], grid, k, l))
 				{
+					printf("tetri fits, the grid currenlty is:\n");
+					display_grid(grid);
+					//exit(1);
 					try_solution(grid, tetriminos, i + 1);
+					printf("\n\nyooo current grid is:\n\n");
+					display_grid(grid);
 					remove_tetrimino(tetriminos[i], grid, k, l);
 				}
 			}
@@ -118,11 +134,35 @@ void	try_solution(t_grid *grid, t_tetrimino **tetriminos, size_t i)
 void	solve(t_tetrimino **tetriminos)
 {
 	t_grid	grid;
+	size_t i;
+	//size_t j;
+
+	i = 0;
+	while (i < 16)
+	{
+		ft_memset((void *)grid.grid[i], '.', 16);
+		i++;
+	}
 
 	grid.grid_size = 2;
+	//grid.grid[0][0] = 'r';
+
+	//display_grid(&grid);
+	//try_solution(&grid, tetriminos, 0);
+	//return ;
+	i = 0;
 	while (1)
 	{
 		try_solution(&grid, tetriminos, 0);
+		/*j = 0;
+		while (j < 16)
+		{
+			ft_memset((void *)grid.grid[j], '.', 16);
+			j++;
+		}*/
+		printf("\n\nHEY current grid is:\n\n");
+		display_grid(&grid);
 		grid.grid_size++;
+		i++;
 	}
 }

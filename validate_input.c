@@ -14,32 +14,33 @@
 
 void	invalid_input(char *err)
 {
+	// 	DELETE
 	printf("%s ", err);
 	ft_putstr("error\n");
 	// It might be necessary to free some stuff here
 	exit(1);
 }
 
-void	handle_block(int block_count, t_tetrimino *tetrimino, size_t line_no,
+void	handle_block(int *block_count, t_tetrimino *tetrimino, size_t line_no,
 	int j)
 {
 	static int		first_coord[2];
 
-	block_count++;
-	if (block_count > 4)
+	(*block_count)++;
+	if (*block_count > 4)
 		invalid_input("too many blocks");
-	if (block_count == 1)
+	if (*block_count == 1)
 	{
 		tetrimino->coords[0] = 0;
 		tetrimino->coords[1] = 0;
 		first_coord[0] = (int)(line_no % 5) - 1;
 		first_coord[1] = j;
 	}
-	if (block_count > 1)
+	if (*block_count > 1)
 	{
-		tetrimino->coords[(block_count - 2) * 2 + 2] = (line_no % 5) - 1 - \
+		tetrimino->coords[(*block_count - 2) * 2 + 2] = (line_no % 5) - 1 - \
 			first_coord[0];
-		tetrimino->coords[(block_count - 2) * 2 + 2 + 1] = j - first_coord[1];
+		tetrimino->coords[(*block_count - 2) * 2 + 2 + 1] = j - first_coord[1];
 	}
 }
 
@@ -73,7 +74,7 @@ void	validate_line(char *line, size_t line_no, t_tetrimino *tetrimino)
 			if (line[j] != '.' && line[j] != '#')
 				invalid_input("invalid character");
 			if (line[j] == '#')
-				handle_block(block_count, tetrimino, line_no, j);
+				handle_block(&block_count, tetrimino, line_no, j);
 			j++;
 		}
 		if (j != 4)
@@ -136,5 +137,5 @@ void	validate_tetrimino(t_tetrimino *tetrimino)
 	}
 	ft_memdel((void *) &dists);
 	if (ones < 3)
-		invalid_input("all tetrimino blocks are not connected");
+		invalid_input("all tetrimino blocks are not connected\n");
 }

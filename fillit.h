@@ -35,4 +35,10 @@ void	validate_line(char *line, size_t line_no, t_tetrimino *tetrimino);
 void	free_tetriminos(t_tetrimino **tetriminos);
 void	solve(t_tetrimino **tetriminos);
 
+// debugging functions. DELETE
+void	print_tetrimino(t_tetrimino *tetrimino);
+void	print_tetriminos(t_tetrimino **tetriminos);
+void    display_grid(t_grid *grid);
+void	display_solution_prettier(t_grid *grid);
+
 #endif

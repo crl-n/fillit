@@ -1,7 +1,7 @@
 NAME = fillit
 
 SRCS = main.c \
-	   get_next_line.c
+	   get_next_line.c validate_input.c
 
 OBJS = $(SRCS:%.c=%.o)
 

@@ -1,29 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fillit.h                                           :+:      :+:    :+:   */
+/*   solve.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cnysten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/05 14:08:49 by cnysten           #+#    #+#             */
-/*   Updated: 2022/01/05 14:08:56 by cnysten          ###   ########.fr       */
+/*   Created: 2022/01/05 16:15:32 by cnysten           #+#    #+#             */
+/*   Updated: 2022/01/05 16:16:25 by cnysten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FILLIT_H
-# define FILLIT_H
+#include "fillit.h"
 
-# include "libft/libft.h"
-# include <stdio.h> // DELETE
-
-typedef struct s_tetrimino
+void	solve(t_tetrimino **tetriminos)
 {
-	int	coords[6];
-} t_tetrimino;
-
-# define USAGE "usage: ./fillit input_file\n"
-
-void	validate_tetrimino(t_tetrimino *tetrimino);
-void	validate_line(char *line, size_t line_no, t_tetrimino *tetrimino);
-
-#endif
+	
+}

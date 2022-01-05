@@ -86,9 +86,8 @@ void	validate_line(char *line, size_t line_no, t_tetrimino *tetrimino)
  * validate_tetrimino().
  */
 
-int	*get_dists(t_tetrimino *tetrimino)
+void	fill_dists(t_tetrimino *tetrimino, int *dists)
 {
-	int		dists[6];
 	size_t	i;
 	size_t	j;
 	size_t	k;
@@ -106,7 +105,6 @@ int	*get_dists(t_tetrimino *tetrimino)
 		}
 		i += 2;
 	}
-	return (dists);
 }
 
 /*
@@ -122,17 +120,21 @@ void	validate_tetrimino(t_tetrimino *tetrimino)
 {
 	size_t	ones;
 	size_t	i;
-	int		dists[6];
+	int		*dists;
 
 	i = 0;
 	ones = 0;
-	dists = get_dists(tetrimino);
+	dists = (int *) malloc(sizeof (int) * 6);
+	if (!dists)
+		exit(1);
+	fill_dists(tetrimino, dists);
 	while (i < 6)
 	{
 		if (dists[i] == 1)
 			ones++;
 		i++;
 	}
+	ft_memdel((void *) &dists);
 	if (ones < 3)
 		invalid_input("all tetrimino blocks are not connected");
 }

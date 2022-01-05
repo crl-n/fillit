@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cnysten <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/05 13:54:33 by cnysten           #+#    #+#             */
+/*   Updated: 2022/01/05 15:07:16 by cnysten          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "fillit.h"
@@ -14,14 +26,16 @@ void	invalid_input(char *err)
 
 void	validate_line(char *line, size_t line_no, t_tetrimino *tetrimino)
 {	
-	static int		prev[2];
+	static int		first_coord[2];
 	static int		block_count;
 	int				j;
  
-	if (line_no % 5 == 0 && *line != '\0')
-		invalid_input("not empty line between tetriminos");
-	else if (line_no % 5 == 0)
+	if (line_no % 5 == 0)
+	{
 		block_count = 0;
+		if (*line != '\0')
+			invalid_input("not empty line between tetriminos");
+	}
 	else
 	{
 		j = 0;
@@ -36,23 +50,18 @@ void	validate_line(char *line, size_t line_no, t_tetrimino *tetrimino)
 				block_count++;
 				if (block_count > 4)
 					invalid_input("too many blocks");
-				if (block_count == 2)
+				if (block_count == 1)
 				{
-					tetrimino->coords[0] = (line_no % 5) - 1 - prev[0];
-					tetrimino->coords[1] = j - prev[1];
+					tetrimino->coords[0] = 0;
+					tetrimino->coords[1] = 0;
+					first_coord[0] =  (int) (line_no % 5) - 1;
+					first_coord[1] = j;
 				}
-				if (block_count == 3)
+				if (block_count > 1)
 				{
-					tetrimino->coords[2] = (line_no % 5) - 1 - prev[0];
-					tetrimino->coords[3] = j - prev[1];
+					tetrimino->coords[(block_count - 2) * 2 + 2] = (line_no % 5) - 1 - first_coord[0];
+					tetrimino->coords[(block_count - 2) * 2 + 2 + 1] = j - first_coord[1];
 				}
-				if (block_count == 4)
-				{
-					tetrimino->coords[4] = (line_no % 5) - 1 - prev[0];
-					tetrimino->coords[5] = j - prev[1];
-				}
-				prev[1] = j;
-				prev[0] =  (int) (line_no % 5) - 1;
 			}
 			j++;
 		}
@@ -71,26 +80,42 @@ t_tetrimino	*new_tetrimino(void)
 	return (tetrimino);
 }
 
+/*
+ * The function validate_tetrimino() checks if all blocks in a tetrimino are connected to each other.
+ *
+ * The int array dists contains the Manhattan distances of each tetrimino block to each other.
+ */
+
 void	validate_tetrimino(t_tetrimino *tetrimino)
 {
 	size_t	i;
-	int		row;
-	int		col;
-	int		prevrow;
-	int		prevcol;
+	size_t	j;
+	size_t	k;
+	int		dists[6];
+	size_t	ones;
 
 	i = 0;
-	prevrow = 0;
-	prevcol = 0;
-	while (i < 6)
+	k = 0;
+	while (i < 7)
 	{
-		row = tetrimino->coords[i];
-		col = tetrimino->coords[i+1];
-		printf("row: %d, col: %d\tprevrow: %d, prevcol: %d\n", row, col, prevrow, prevcol);
-		if (row + ft_abs(col) != 1)
-			printf("gap between blocks\n");
+		j = i + 2;
+		while (j < 7)
+		{
+			dists[k++] = (tetrimino->coords[j] - tetrimino->coords[i]) + (tetrimino->coords[j + 1] - tetrimino->coords[i + 1]);
+			j += 2;
+		}
 		i += 2;
 	}
+	i = 0;
+	ones = 0;
+	while (i < 6)
+	{
+		if (dists[i] == 1)
+			ones++;
+		i++;
+	}
+	if (ones < 3)
+		invalid_input("all tetrimino blocks are not connected");
 }
 
 void	get_tetriminos(char *filename, t_tetrimino **tetriminos)
@@ -117,7 +142,10 @@ void	get_tetriminos(char *filename, t_tetrimino **tetriminos)
 		}
 		ret = get_next_line(fd, &line);
 		if (ret == 0)
+		{
+			ft_memdel((void *) &(tetriminos[i]));
 			break ;
+		}
 		if (ret < 0)
 			exit(1);
 		validate_line(line, line_no, tetriminos[i]);
@@ -143,7 +171,7 @@ void	print_tetriminos(t_tetrimino **tetriminos)
 	while (tetriminos[i])
 	{
 		j = 0;
-		while (j < 6)
+		while (j < 8)
 		{
 			printf("%d, ", tetriminos[i]->coords[j]);
 			j++;

@@ -87,7 +87,6 @@ int	main(int argc, char **argv)
 	}
 	ft_bzero(tetriminos, sizeof(t_tetrimino *) * 27);
 	get_tetriminos(argv[1], tetriminos);
-	print_tetriminos(tetriminos);
 	solve(tetriminos);
 	free_tetriminos(tetriminos);
 	return (0);

@@ -50,6 +50,10 @@ int		tetrimino_fits(t_tetrimino *tetrimino, t_grid *grid, size_t k, size_t l)
 	return (1);
 }
 
+/*
+ * remove_tetrimino() resets the characters in the grid to '.'.
+ */
+
 void	remove_tetrimino(t_tetrimino *tetrimino, t_grid *grid, size_t k, size_t l)
 {
 	size_t	j;
@@ -66,6 +70,11 @@ void	remove_tetrimino(t_tetrimino *tetrimino, t_grid *grid, size_t k, size_t l)
 	}
 }
 
+/*
+ * display_solution() is used to display the solution when the correct solution has
+ * been found.
+ */
+
 void	display_solution(t_grid *grid)
 {
 	size_t	i;
@@ -78,6 +87,12 @@ void	display_solution(t_grid *grid)
 		i++;
 	}
 }
+
+/*
+ * If tetrimino is NULL, all tetriminos have been placed onto the map.
+ * This means the correct solution has been found. In that case, the correct
+ * solution is displayed and heap allocated memory is freed.
+ */
 
 void	check_if_solved(t_tetrimino *tetrimino, t_tetrimino **tetriminos, t_grid *grid)
 {
@@ -114,6 +129,10 @@ void	try_solution(t_grid *grid, t_tetrimino **tetriminos, size_t i)
 		k++;
 	}
 }
+
+/*
+ * solve() calls try_solution.
+ */
 
 void	solve(t_tetrimino **tetriminos)
 {

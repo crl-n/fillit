@@ -25,7 +25,6 @@ void	handle_block(int block_count, t_tetrimino *tetrimino, size_t line_no,
 {
 	static int		first_coord[2];
 
-	block_count++;
 	if (block_count > 4)
 		invalid_input("too many blocks");
 	if (block_count == 1)
@@ -73,7 +72,7 @@ void	validate_line(char *line, size_t line_no, t_tetrimino *tetrimino)
 			if (line[j] != '.' && line[j] != '#')
 				invalid_input("invalid character");
 			if (line[j] == '#')
-				handle_block(block_count, tetrimino, line_no, j);
+				handle_block(++block_count, tetrimino, line_no, j);
 			j++;
 		}
 		if (j != 4)

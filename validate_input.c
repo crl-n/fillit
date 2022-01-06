@@ -6,7 +6,7 @@
 /*   By: cnysten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 15:27:38 by cnysten           #+#    #+#             */
-/*   Updated: 2022/01/05 16:04:46 by cnysten          ###   ########.fr       */
+/*   Updated: 2022/01/06 19:50:19 by cnysten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	invalid_input(char *err)
 	exit(1);
 }
 
-void	handle_block(int *block_count, t_tetrimino *tetrimino, size_t line_no,
+void	handle_block(int *block_count, t_tet *tet, size_t line_no,
 	int j)
 {
 	static int		first_coord[2];
@@ -31,16 +31,16 @@ void	handle_block(int *block_count, t_tetrimino *tetrimino, size_t line_no,
 		invalid_input("too many blocks");
 	if (*block_count == 1)
 	{
-		tetrimino->coords[0] = 0;
-		tetrimino->coords[1] = 0;
+		tet->coords[0] = 0;
+		tet->coords[1] = 0;
 		first_coord[0] = (int)(line_no % 5) - 1;
 		first_coord[1] = j;
 	}
 	if (*block_count > 1)
 	{
-		tetrimino->coords[(*block_count - 2) * 2 + 2] = (line_no % 5) - 1 - \
+		tet->coords[(*block_count - 2) * 2 + 2] = (line_no % 5) - 1 - \
 			first_coord[0];
-		tetrimino->coords[(*block_count - 2) * 2 + 2 + 1] = j - first_coord[1];
+		tet->coords[(*block_count - 2) * 2 + 2 + 1] = j - first_coord[1];
 	}
 }
 
@@ -53,7 +53,7 @@ void	handle_block(int *block_count, t_tetrimino *tetrimino, size_t line_no,
  * validate_line() also calls handle_block() when a block is found.
  */
 
-void	validate_line(char *line, size_t line_no, t_tetrimino *tetrimino)
+void	validate_line(char *line, size_t line_no, t_tet *tet)
 {
 	static int		block_count;
 	int				j;
@@ -74,7 +74,7 @@ void	validate_line(char *line, size_t line_no, t_tetrimino *tetrimino)
 			if (line[j] != '.' && line[j] != '#')
 				invalid_input("invalid character");
 			if (line[j] == '#')
-				handle_block(&block_count, tetrimino, line_no, j);
+				handle_block(&block_count, tet, line_no, j);
 			j++;
 		}
 		if (j != 4)
@@ -87,7 +87,7 @@ void	validate_line(char *line, size_t line_no, t_tetrimino *tetrimino)
  * validate_tetrimino().
  */
 
-void	fill_dists(t_tetrimino *tetrimino, int *dists)
+void	fill_dists(t_tet *tet, int *dists)
 {
 	size_t	i;
 	size_t	j;
@@ -100,8 +100,8 @@ void	fill_dists(t_tetrimino *tetrimino, int *dists)
 		j = i + 2;
 		while (j < 7)
 		{
-			dists[k++] = (tetrimino->coords[j] - tetrimino->coords[i]) + \
-				(tetrimino->coords[j + 1] - tetrimino->coords[i + 1]);
+			dists[k++] = (tet->coords[j] - tet->coords[i]) + \
+				(tet->coords[j + 1] - tet->coords[i + 1]);
 			j += 2;
 		}
 		i += 2;
@@ -117,7 +117,7 @@ void	fill_dists(t_tetrimino *tetrimino, int *dists)
  * of 1. If it has less, there is at least one gap between blocks.
  */
 
-void	validate_tetrimino(t_tetrimino *tetrimino)
+void	validate_tetrimino(t_tet *tet)
 {
 	size_t	ones;
 	size_t	i;
@@ -128,7 +128,7 @@ void	validate_tetrimino(t_tetrimino *tetrimino)
 	dists = (int *) malloc(sizeof (int) * 6);
 	if (!dists)
 		exit(1);
-	fill_dists(tetrimino, dists);
+	fill_dists(tet, dists);
 	while (i < 6)
 	{
 		if (dists[i] == 1)

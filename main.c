@@ -6,7 +6,7 @@
 /*   By: cnysten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 13:54:33 by cnysten           #+#    #+#             */
-/*   Updated: 2022/01/06 18:03:10 by cnysten          ###   ########.fr       */
+/*   Updated: 2022/01/06 19:48:14 by cnysten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,22 @@
 #include "fcntl.h"
 #include "get_next_line.h"
 
-t_tetrimino	*new_tetrimino(size_t i)
+t_tet	*new_tetrimino(size_t i)
 {
-	t_tetrimino	*tetrimino;
+	t_tet	*tet;
 
-	tetrimino = (t_tetrimino *) malloc(sizeof (t_tetrimino));
-	if (!tetrimino)
+	tet = (t_tet *) malloc(sizeof (t_tet));
+	if (!tet)
 		return (NULL);
-	tetrimino->symbol = 'A' + i;
-	return (tetrimino);
+	tet->symbol = 'A' + i;
+	return (tet);
 }
 
-int	handle_gnl_ret(size_t ret, t_tetrimino **tetrimino)
+int	handle_gnl_ret(size_t ret, t_tet **tet)
 {
 	if (ret == 0)
 	{
-		ft_memdel((void *) tetrimino);
+		ft_memdel((void *) tet);
 		return (1);
 	}
 	if (ret < 0)
@@ -38,7 +38,7 @@ int	handle_gnl_ret(size_t ret, t_tetrimino **tetrimino)
 	return (0);
 }
 
-void	get_tetriminos(char *filename, t_tetrimino **tetriminos)
+void	get_tetriminos(char *filename, t_tet **tets)
 {
 	int		fd;
 	int		ret;
@@ -51,48 +51,48 @@ void	get_tetriminos(char *filename, t_tetrimino **tetriminos)
 		exit(1);
 	line_no = 1;
 	i = 0;
-	tetriminos[0] = new_tetrimino(0);
+	tets[0] = new_tetrimino(0);
 	while (1)
 	{
 		if (line_no % 5 == 0)
 		{
-			validate_tetrimino(tetriminos[i++]);
-			tetriminos[i] = new_tetrimino(i);
+			validate_tetrimino(tets[i++]);
+			tets[i] = new_tetrimino(i);
 		}
 		ret = get_next_line(fd, &line);
-		if (handle_gnl_ret(ret, &(tetriminos[i])))
+		if (handle_gnl_ret(ret, &(tets[i])))
 			break ;
-		validate_line(line, line_no, tetriminos[i]);
+		validate_line(line, line_no, tets[i]);
 		line_no++;
 	}
 }
 
-void	free_tetriminos(t_tetrimino **tetriminos)
+void	free_tetriminos(t_tet **tets)
 {
 	size_t	i;
 
 	i = 0;
-	while (tetriminos[i])
-		free(tetriminos[i++]);
+	while (tets[i])
+		free(tets[i++]);
 }
 
-void	get_dimensions(t_tetrimino **tetriminos)
+void	get_dimensions(t_tet **tets)
 {
 	size_t	i;
 	size_t	j;
 
 	i = 0;
-	while (tetriminos[i])
+	while (tets[i])
 	{
 		j = 0;
-		tetriminos[i]->width = 1;
-		tetriminos[i]->height = 1;
+		tets[i]->width = 1;
+		tets[i]->height = 1;
 		while (j < 7)
 		{
-			if ((size_t) tetriminos[i]->coords[j] > tetriminos[i]->height)
-				tetriminos[i]->height = tetriminos[i]->coords[j];
-			if ((size_t) tetriminos[i]->coords[j + 1] > tetriminos[i]->height)
-				tetriminos[i]->height = tetriminos[i]->coords[j + 1];
+			if ((size_t) tets[i]->coords[j] + 1> tets[i]->height)
+				tets[i]->height = tets[i]->coords[j] + 1;
+			if ((size_t) tets[i]->coords[j + 1] + 1 > tets[i]->width)
+				tets[i]->width = tets[i]->coords[j + 1] + 1;
 			j += 2;
 		}
 		i++;
@@ -101,17 +101,17 @@ void	get_dimensions(t_tetrimino **tetriminos)
 
 int	main(int argc, char **argv)
 {
-	t_tetrimino	*tetriminos[27];
+	t_tet	*tets[27];
 
 	if (argc != 2)
 	{
 		ft_putstr(USAGE);
 		return (1);
 	}
-	ft_bzero(tetriminos, sizeof(t_tetrimino *) * 27);
-	get_tetriminos(argv[1], tetriminos);
-	get_dimensions(tetriminos);
-	solve(tetriminos);
-	free_tetriminos(tetriminos);
+	ft_bzero(tets, sizeof(t_tet *) * 27);
+	get_tetriminos(argv[1], tets);
+	get_dimensions(tets);
+	solve(tets);
+	free_tetriminos(tets);
 	return (0);
 }

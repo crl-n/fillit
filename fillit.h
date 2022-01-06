@@ -6,7 +6,7 @@
 /*   By: cnysten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 14:08:49 by cnysten           #+#    #+#             */
-/*   Updated: 2022/01/06 18:01:05 by cnysten          ###   ########.fr       */
+/*   Updated: 2022/01/06 19:48:34 by cnysten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@
 # include "libft/libft.h"
 # include <stdio.h> // DELETE
 
-typedef struct s_tetrimino
+typedef struct s_tet
 {
 	char	symbol;
 	int		coords[8];
 	size_t	width;
 	size_t	height;
-} t_tetrimino;
+} t_tet;
 
 typedef struct s_grid
 {
@@ -32,17 +32,17 @@ typedef struct s_grid
 
 # define USAGE "usage: ./fillit input_file\n"
 
-void	validate_tetrimino(t_tetrimino *tetrimino);
-void	validate_line(char *line, size_t line_no, t_tetrimino *tetrimino);
-void	free_tetriminos(t_tetrimino **tetriminos);
-void	solve(t_tetrimino **tetriminos);
+void	validate_tetrimino(t_tet *tet);
+void	validate_line(char *line, size_t line_no, t_tet *tet);
+void	free_tetriminos(t_tet **tets);
+void	solve(t_tet **tets);
 void	display_solution(t_grid *grid);
 int	ft_sqrt(int nb);
 
 // debugging functions. DELETE
-void	print_tetrimino(t_tetrimino *tetrimino);
-void	print_tetriminos(t_tetrimino **tetriminos);
-void    display_grid(t_grid *grid);
+void	print_tetrimino(t_tet *tet);
+void	print_tetriminos(t_tet **tets);
+void	display_grid(t_grid *grid);
 void	display_solution_prettier(t_grid *grid);
 
 #endif

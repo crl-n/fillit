@@ -6,7 +6,7 @@
 /*   By: cnysten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:15:32 by cnysten           #+#    #+#             */
-/*   Updated: 2022/01/06 18:05:17 by cnysten          ###   ########.fr       */
+/*   Updated: 2022/01/06 19:45:46 by cnysten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  * filled to the grid. If the fit fails, the symbols are changed back into dots.
  */
 
-int	tetrimino_fits(t_tetrimino *tetrimino, t_grid *grid, size_t k, size_t l)
+int	tetrimino_fits(t_tet *tet, t_grid *grid, size_t k, size_t l)
 {
 	size_t	j;
 	size_t	row;
@@ -31,21 +31,21 @@ int	tetrimino_fits(t_tetrimino *tetrimino, t_grid *grid, size_t k, size_t l)
 	j = 0;
 	while (j < 7)
 	{
-		row = k + tetrimino->coords[j];
-		col = l + tetrimino->coords[j + 1];
+		row = k + tet->coords[j];
+		col = l + tet->coords[j + 1];
 		if (row >= grid->grid_size || col >= grid->grid_size
 			|| grid->grid[row][col] != '.')
 		{
 			while (j > 0)
 			{
 				j -= 2;
-				row = k + tetrimino->coords[j];
-				col = l + tetrimino->coords[j + 1];
+				row = k + tet->coords[j];
+				col = l + tet->coords[j + 1];
 				grid->grid[row][col] = '.';
 			}
 			return (0);
 		}
-		grid->grid[row][col] = tetrimino->symbol;
+		grid->grid[row][col] = tet->symbol;
 		j += 2;
 	}
 	return (1);
@@ -55,8 +55,7 @@ int	tetrimino_fits(t_tetrimino *tetrimino, t_grid *grid, size_t k, size_t l)
  * remove_tetrimino() resets the characters in the grid to '.'.
  */
 
-void	remove_tetrimino(t_tetrimino *tetrimino,
-		t_grid *grid, size_t k, size_t l)
+void	remove_tetrimino(t_tet *tet, t_grid *grid, size_t k, size_t l)
 {
 	size_t	j;
 	size_t	row;
@@ -65,8 +64,8 @@ void	remove_tetrimino(t_tetrimino *tetrimino,
 	j = 0;
 	while (j < 7)
 	{
-		row = k + tetrimino->coords[j];
-		col = l + tetrimino->coords[j + 1];
+		row = k + tet->coords[j];
+		col = l + tet->coords[j + 1];
 		grid->grid[row][col] = '.';
 		j += 2;
 	}
@@ -78,35 +77,35 @@ void	remove_tetrimino(t_tetrimino *tetrimino,
  * solution is displayed and heap allocated memory is freed.
  */
 
-void	check_if_solved(t_tetrimino *tetrimino,
-		t_tetrimino **tetriminos, t_grid *grid)
+void	check_if_solved(t_tet *tet, t_tet **tets, t_grid *grid)
 {
-	if (!tetrimino)
+	if (!tet)
 	{
 		display_solution(grid);
-		free_tetriminos(tetriminos);
+		free_tetriminos(tets);
 		exit(0);
 	}
 }
 
-void	try_solution(t_grid *grid, t_tetrimino **tetriminos, size_t i)
+void	try_solution(t_grid *grid, t_tet **tets, size_t i)
 {
 	size_t	k;
 	size_t	l;
 
-	check_if_solved(tetriminos[i], tetriminos, grid);
+	check_if_solved(tets[i], tets, grid);
 	k = 0;
-	while (k + tetriminos[i]->height < grid->grid_size)
+	while (k + tets[i]->height - 1 < grid->grid_size)
 	{
 		l = 0;
-		while (l + tetriminos[i]->width < grid->grid_size)
+		while (l + tets[i]->width - 1 < grid->grid_size)
 		{
 			if (grid->grid[k][l] == '.')
 			{
-				if (tetrimino_fits(tetriminos[i], grid, k, l))
+				if (tetrimino_fits(tets[i], grid, k, l))
 				{
-					try_solution(grid, tetriminos, i + 1);
-					remove_tetrimino(tetriminos[i], grid, k, l);
+					try_solution(grid, tets, i + 1);
+					remove_tetrimino(tets[i], grid, k, l);
+					
 				}
 			}
 			l++;
@@ -119,7 +118,7 @@ void	try_solution(t_grid *grid, t_tetrimino **tetriminos, size_t i)
  * solve() calls try_solution.
  */
 
-void	solve(t_tetrimino **tetriminos)
+void	solve(t_tet **tets)
 {
 	t_grid	grid;
 	size_t	i;
@@ -133,16 +132,22 @@ void	solve(t_tetrimino **tetriminos)
 		i++;
 	}
 	i = 0;
-	min_area = 4;
-	while (tetriminos[i])
+	min_area = 0;
+	while (tets[i])
 	{
 		i++;
 		min_area += 4;
 	}
-	grid.grid_size = ft_sqrt(min_area);
+	grid.grid_size = ft_sqrt(min_area);;
+	while (!ft_sqrt(min_area))
+	{
+		grid.grid_size = ft_sqrt(min_area - 4) + 1;
+		min_area -= 4;
+	}
+	printf("grid_size at start: %zu\n", grid.grid_size);
 	while (1)
 	{
-		try_solution(&grid, tetriminos, 0);
+		try_solution(&grid, tets, 0);
 		grid.grid_size++;
 	}
 }

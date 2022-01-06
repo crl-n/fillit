@@ -31,7 +31,7 @@ int	tetrimino_fits(t_tet *tet, t_grid *grid, size_t k, size_t l)
 	j = 0;
 	while (j < 7)
 	{
-		row = k + tet->coords[j];
+		row = k + tet->coords[j]; // ! Row and col can be negative, which could crash our program !
 		col = l + tet->coords[j + 1];
 		if (row >= grid->grid_size || col >= grid->grid_size
 			|| grid->grid[row][col] != '.')

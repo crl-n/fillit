@@ -6,7 +6,7 @@
 /*   By: cnysten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 14:08:49 by cnysten           #+#    #+#             */
-/*   Updated: 2022/01/05 14:08:56 by cnysten          ###   ########.fr       */
+/*   Updated: 2022/01/06 14:43:19 by cnysten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	validate_tetrimino(t_tetrimino *tetrimino);
 void	validate_line(char *line, size_t line_no, t_tetrimino *tetrimino);
 void	free_tetriminos(t_tetrimino **tetriminos);
 void	solve(t_tetrimino **tetriminos);
+void	display_solution(t_grid *grid)
 
 // debugging functions. DELETE
 void	print_tetrimino(t_tetrimino *tetrimino);

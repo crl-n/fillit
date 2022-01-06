@@ -6,7 +6,7 @@
 /*   By: cnysten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 13:54:33 by cnysten           #+#    #+#             */
-/*   Updated: 2022/01/05 15:07:16 by cnysten          ###   ########.fr       */
+/*   Updated: 2022/01/06 18:03:10 by cnysten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,29 @@ void	free_tetriminos(t_tetrimino **tetriminos)
 		free(tetriminos[i++]);
 }
 
+void	get_dimensions(t_tetrimino **tetriminos)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	while (tetriminos[i])
+	{
+		j = 0;
+		tetriminos[i]->width = 1;
+		tetriminos[i]->height = 1;
+		while (j < 7)
+		{
+			if ((size_t) tetriminos[i]->coords[j] > tetriminos[i]->height)
+				tetriminos[i]->height = tetriminos[i]->coords[j];
+			if ((size_t) tetriminos[i]->coords[j + 1] > tetriminos[i]->height)
+				tetriminos[i]->height = tetriminos[i]->coords[j + 1];
+			j += 2;
+		}
+		i++;
+	}
+}
+
 int	main(int argc, char **argv)
 {
 	t_tetrimino	*tetriminos[27];
@@ -87,6 +110,7 @@ int	main(int argc, char **argv)
 	}
 	ft_bzero(tetriminos, sizeof(t_tetrimino *) * 27);
 	get_tetriminos(argv[1], tetriminos);
+	get_dimensions(tetriminos);
 	solve(tetriminos);
 	free_tetriminos(tetriminos);
 	return (0);

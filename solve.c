@@ -6,7 +6,7 @@
 /*   By: cnysten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 16:15:32 by cnysten           #+#    #+#             */
-/*   Updated: 2022/01/06 14:43:21 by cnysten          ###   ########.fr       */
+/*   Updated: 2022/01/06 18:05:17 by cnysten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,10 +96,10 @@ void	try_solution(t_grid *grid, t_tetrimino **tetriminos, size_t i)
 
 	check_if_solved(tetriminos[i], tetriminos, grid);
 	k = 0;
-	while (k < grid->grid_size)
+	while (k + tetriminos[i]->height < grid->grid_size)
 	{
 		l = 0;
-		while (l < grid->grid_size)
+		while (l + tetriminos[i]->width < grid->grid_size)
 		{
 			if (grid->grid[k][l] == '.')
 			{
@@ -122,15 +122,24 @@ void	try_solution(t_grid *grid, t_tetrimino **tetriminos, size_t i)
 void	solve(t_tetrimino **tetriminos)
 {
 	t_grid	grid;
-	size_t i;
+	size_t	i;
+	size_t	min_area;
 
 	i = 0;
-	while (i < 16)
+	while (i < 32)
 	{
-		ft_memset((void *)grid.grid[i], '.', 16);
+		ft_memset((void *)grid.grid[i], '.', 31);
+		grid.grid[i][31] = '\0';
 		i++;
 	}
-	grid.grid_size = 2;
+	i = 0;
+	min_area = 4;
+	while (tetriminos[i])
+	{
+		i++;
+		min_area += 4;
+	}
+	grid.grid_size = ft_sqrt(min_area);
 	while (1)
 	{
 		try_solution(&grid, tetriminos, 0);

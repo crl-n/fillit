@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   display_solution.c                                 :+:      :+:    :+:   */
+/*   ft_sqrt.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cnysten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/06 14:42:26 by cnysten           #+#    #+#             */
-/*   Updated: 2022/01/06 14:46:48 by cnysten          ###   ########.fr       */
+/*   Created: 2021/10/28 16:39:30 by cnysten           #+#    #+#             */
+/*   Updated: 2021/10/29 16:42:43 by cnysten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fillit.h"
-
-/*
- * display_solution() is used to display the solution when the correct
- * solution has been found.
- */
-
-void	display_solution(t_grid *grid)
+int	ft_sqrt(int nb)
 {
-	size_t	i;
+	int	steps;
+	int	i;
 
-	i = 0;
-	while (i < grid->grid_size)
+	i = 1;
+	steps = 0;
+	while (nb > 0)
 	{
-		write(1, grid->grid[i], grid->grid_size);
-		write(1, "\n", 1);
-		i++;
+		nb = nb - i;
+		i = i + 2;
+		steps++;
 	}
+	if (nb == 0)
+		return (steps);
+	return (0);
 }

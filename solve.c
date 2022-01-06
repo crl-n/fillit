@@ -37,11 +37,12 @@ int		tetrimino_fits(t_tetrimino *tetrimino, t_grid *grid, size_t k, size_t l)
 		{
 			while (j > 0)
 			{
+				j -= 2;
 				row = k + tetrimino->coords[j];
 				col = l + tetrimino->coords[j + 1];
 				grid->grid[row][col] = '.';
-				j -= 2;
 			}
+			grid->grid[k][l] = '.';
 			return (0);
 		}
 		grid->grid[row][col] = tetrimino->symbol;
@@ -108,12 +109,12 @@ void	try_solution(t_grid *grid, t_tetrimino **tetriminos, size_t i)
 {
 	size_t	k;
 	size_t	l;
-
+	
 	check_if_solved(tetriminos[i], tetriminos, grid);
 	k = 0;
-	l = 0;
 	while (k < grid->grid_size)
 	{
+		l = 0;
 		while (l < grid->grid_size)
 		{
 			if (grid->grid[k][l] == '.')
@@ -137,7 +138,14 @@ void	try_solution(t_grid *grid, t_tetrimino **tetriminos, size_t i)
 void	solve(t_tetrimino **tetriminos)
 {
 	t_grid	grid;
+	size_t i;
 
+	i = 0;
+	while (i < 16)
+	{
+		ft_memset((void *)grid.grid[i], '.', 16);
+		i++;
+	}
 	grid.grid_size = 2;
 	while (1)
 	{

@@ -3,7 +3,8 @@ NAME = fillit
 SRCS = main.c \
 	   get_next_line.c \
 	   validate_input.c \
-	   solve.c
+	   solve.c \
+	   debugging_functions.c
 
 OBJS = $(SRCS:%.c=%.o)
 

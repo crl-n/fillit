@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdlib.h>
 #include "fillit.h"
 #include "fcntl.h"
@@ -77,29 +76,6 @@ void	free_tetriminos(t_tetrimino **tetriminos)
 		free(tetriminos[i++]);
 }
 
-/*
-temporary print function
-*/
-
-void	print_tetriminos(t_tetrimino **tetriminos)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	while (tetriminos[i])
-	{
-		j = 0;
-		while (j < 8)
-		{
-			printf("%d, ", tetriminos[i]->coords[j]);
-			j++;
-		}
-		i++;
-		printf("\n");
-	}
-}
-
 int	main(int argc, char **argv)
 {
 	t_tetrimino	*tetriminos[27];
@@ -111,7 +87,6 @@ int	main(int argc, char **argv)
 	}
 	ft_bzero(tetriminos, sizeof(t_tetrimino *) * 27);
 	get_tetriminos(argv[1], tetriminos);
-	print_tetriminos(tetriminos);
 	solve(tetriminos);
 	free_tetriminos(tetriminos);
 	return (0);

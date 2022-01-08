@@ -28,7 +28,8 @@ int	tetrimino_fits(t_tet *tet, t_grid *grid, size_t k, size_t l)
 	size_t	row;
 	size_t	col;
 
-	j = 0;
+	j = 2;
+	grid->grid[k][l] = tet->symbol;
 	while (j < 7)
 	{
 		row = k + tet->coords[j]; // ! Row and col can be negative, which could crash our program !

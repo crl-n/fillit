@@ -27,14 +27,16 @@ int	tetrimino_fits(t_tet *tet, t_grid *grid, size_t k, size_t l)
 	size_t	j;
 	size_t	row;
 	size_t	col;
+	size_t	grid_size;
 
+	grid_size = grid->grid_size;
 	j = 2;
 	grid->grid[k][l] = tet->symbol;
 	while (j < 7)
 	{
 		row = k + tet->coords[j]; // ! Row and col can be negative, which could crash our program !
 		col = l + tet->coords[j + 1];
-		if (row >= grid->grid_size || col >= grid->grid_size
+		if (row >= grid_size || col >= grid_size
 			|| grid->grid[row][col] != '.')
 		{
 			while (j > 0)
@@ -88,25 +90,30 @@ void	check_if_solved(t_tet *tet, t_tet **tets, t_grid *grid)
 	}
 }
 
-void	try_solution(t_grid *grid, t_tet **tets, size_t i)
+void	try_solution(t_grid *grid, size_t grid_size, t_tet **tets, size_t i)
 {
 	size_t	k;
 	size_t	l;
+	size_t	height;
+	size_t	width;
+	t_tet	*tet;
 
 	check_if_solved(tets[i], tets, grid);
 	k = 0;
-	while (k + tets[i]->height - 1 < grid->grid_size)
+	height = tets[i]->height;
+	width = tets[i]->width;
+	tet = tets[i];
+	while (k + height - 1 < grid_size)
 	{
 		l = 0;
-		while (l + tets[i]->width - 1 < grid->grid_size)
+		while (l + width - 1 < grid_size)
 		{
 			if (grid->grid[k][l] == '.')
 			{
-				if (tetrimino_fits(tets[i], grid, k, l))
+				if (tetrimino_fits(tet, grid, k, l))
 				{
-					try_solution(grid, tets, i + 1);
-					remove_tetrimino(tets[i], grid, k, l);
-					
+					try_solution(grid, grid_size, tets, i + 1);
+					remove_tetrimino(tet, grid, k, l);
 				}
 			}
 			l++;
@@ -148,7 +155,7 @@ void	solve(t_tet **tets)
 	printf("grid_size at start: %zu\n", grid.grid_size);
 	while (1)
 	{
-		try_solution(&grid, tets, 0);
+		try_solution(&grid, grid.grid_size, tets, 0);
 		grid.grid_size++;
 	}
 }

@@ -51,6 +51,8 @@ int	tetrimino_fits(t_tet *tet, t_grid *grid, size_t k, size_t l)
 		grid->grid[row][col] = tet->symbol;
 		j += 2;
 	}
+	tet->grid_placement[0] = k;
+	tet->grid_placement[1] = l;
 	return (1);
 }
 
@@ -100,12 +102,17 @@ void	try_solution(t_grid *grid, size_t grid_size, t_tet **tets, size_t i)
 
 	check_if_solved(tets[i], tets, grid);
 	k = 0;
+	l = 0;
 	height = tets[i]->height;
 	width = tets[i]->width;
 	tet = tets[i];
+	if (tet->prev)
+	{
+		k = (tets[tet->prev])->grid_placement[0];
+		l = (tets[tet->prev])->grid_placement[1];
+	}
 	while (k + height - 1 < grid_size)
 	{
-		l = 0;
 		while (l + width - 1 < grid_size)
 		{
 			if (grid->grid[k][l] == '.')
@@ -119,6 +126,7 @@ void	try_solution(t_grid *grid, size_t grid_size, t_tet **tets, size_t i)
 			l++;
 		}
 		k++;
+		l = 0;
 	}
 }
 

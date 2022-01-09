@@ -6,7 +6,7 @@ void	print_tetrimino(t_tet *tet)
 	int 	j;
 
 	j = 0;
-	printf("prev: %zu\n", tet->prev);
+	printf("prev: %d\n", tet->prev);
 	while (j < 8)
 	{
 		printf("%d, ", tet->coords[j]);

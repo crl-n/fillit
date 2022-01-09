@@ -106,7 +106,7 @@ void	try_solution(t_grid *grid, size_t grid_size, t_tet **tets, size_t i)
 	height = tets[i]->height;
 	width = tets[i]->width;
 	tet = tets[i];
-	if (tet->prev)
+	if (tet->prev != -1)
 	{
 		k = (tets[tet->prev])->grid_placement[0];
 		l = (tets[tet->prev])->grid_placement[1];

@@ -22,7 +22,7 @@ typedef struct s_tet
 	int		coords[8];
 	size_t	width;
 	size_t	height;
-	size_t	prev;
+	int		prev;
 	size_t	grid_placement[2];
 } t_tet;
 

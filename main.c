@@ -23,6 +23,7 @@ t_tet	*new_tetrimino(size_t i)
 	if (!tet)
 		return (NULL);
 	tet->symbol = 'A' + i;
+	tet->prev = -1;
 	return (tet);
 }
 

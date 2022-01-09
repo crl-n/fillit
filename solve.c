@@ -105,7 +105,6 @@ void	try_solution(t_grid *grid, t_tet **tets, size_t i)
 				{
 					try_solution(grid, tets, i + 1);
 					remove_tetrimino(tets[i], grid, k, l);
-					
 				}
 			}
 			l++;

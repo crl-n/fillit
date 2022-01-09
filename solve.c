@@ -35,7 +35,7 @@ int	tetrimino_fits(t_tet *tet, t_grid *grid, size_t k, size_t l)
 	while (j < 7)
 	{
 		row = k + tet->coords[j]; // ! Row and col can be negative, which could crash our program !
-		col = l + tet->coords[j + 1];
+		col = (size_t)((int) l + tet->coords[j + 1]);
 		if (row >= grid_size || col >= grid_size
 			|| grid->grid[row][col] != '.')
 		{
@@ -102,7 +102,7 @@ void	try_solution(t_grid *grid, size_t grid_size, t_tet **tets, size_t i)
 
 	check_if_solved(tets[i], tets, grid);
 	k = 0;
-	l = 0;
+	l = 0 + tets[i]->left_offset;
 	height = tets[i]->height;
 	width = tets[i]->width;
 	tet = tets[i];
@@ -113,7 +113,7 @@ void	try_solution(t_grid *grid, size_t grid_size, t_tet **tets, size_t i)
 	}
 	while (k + height - 1 < grid_size)
 	{
-		while (l + width - 1 < grid_size)
+		while (l + width - tets[i]->left_offset - 1 < grid_size)
 		{
 			if (grid->grid[k][l] == '.')
 			{
@@ -126,7 +126,7 @@ void	try_solution(t_grid *grid, size_t grid_size, t_tet **tets, size_t i)
 			l++;
 		}
 		k++;
-		l = 0;
+		l = 0 + tets[i]->left_offset;
 	}
 }
 
@@ -160,7 +160,6 @@ void	solve(t_tet **tets)
 		grid.grid_size = ft_sqrt(min_area - 4) + 1;
 		min_area -= 4;
 	}
-	printf("grid_size at start: %zu\n", grid.grid_size);
 	while (1)
 	{
 		try_solution(&grid, grid.grid_size, tets, 0);

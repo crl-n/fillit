@@ -22,6 +22,7 @@ typedef struct s_tet
 	int		coords[8];
 	size_t	width;
 	size_t	height;
+	size_t	left_offset;
 	int		prev;
 	size_t	grid_placement[2];
 } t_tet;
@@ -46,6 +47,7 @@ void	free_tetriminos(t_tet **tets);
 void	solve(t_tet **tets);
 void	display_solution(t_grid *grid);
 int	ft_sqrt(int nb);
+void	invalid_input(char *err);
 
 // debugging functions. DELETE
 void	print_tetrimino(t_tet *tet);

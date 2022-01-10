@@ -12,7 +12,6 @@
 
 #include "fillit.h"
 #include "fcntl.h"
-#include "get_next_line.h"
 
 int	handle_gnl_ret(size_t ret, t_tet **tet, char **line)
 {

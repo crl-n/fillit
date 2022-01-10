@@ -1,7 +1,6 @@
 NAME = fillit
 
 SRCS = main.c \
-	   get_next_line.c \
 	   validate_input.c \
 	   solve.c \
 	   tetrimino_fits.c \

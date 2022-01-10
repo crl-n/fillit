@@ -21,7 +21,7 @@ static size_t	get_grid_size(t_tet **tets)
 	while (tets[count])
 		count++;
 	grid_size = 2;
-	while (grid_size * grid_size <= count * 4)
+	while (grid_size * grid_size < count * 4)
 		grid_size++;
 	return (grid_size);
 }

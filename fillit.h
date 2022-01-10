@@ -41,7 +41,7 @@ void	free_tetriminos(t_tet **tets);
 void	solve(t_tet **tets);
 void	display_solution(t_grid *grid);
 int		ft_sqrt(int nb);
-void	invalid_input(char *err);
+void	invalid_input(void);
 void	get_prevs(t_tet **tets);
 void	get_dimensions(t_tet **tets);
 void	handle_file(char *filename, t_tet **tets);

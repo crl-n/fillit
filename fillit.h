@@ -6,7 +6,7 @@
 /*   By: cnysten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 14:08:49 by cnysten           #+#    #+#             */
-/*   Updated: 2022/01/10 19:42:11 by cnysten          ###   ########.fr       */
+/*   Updated: 2022/01/10 21:01:13 by cnysten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,5 @@ void	get_prevs(t_tet **tets);
 void	get_dimensions(t_tet **tets);
 void	handle_file(char *filename, t_tet **tets);
 t_tet	*new_tetrimino(size_t i);
-
-// debugging functions. DELETE
-void	print_tetrimino(t_tet *tet);
-void	print_tetriminos(t_tet **tets);
-void	display_grid(t_grid *grid);
-void	display_solution_prettier(t_grid *grid);
 
 #endif

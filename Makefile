@@ -6,7 +6,6 @@ SRCS = main.c \
 	   tetrimino_fits.c \
 	   try_solution.c \
 	   display_solution.c \
-	   debugging_functions.c \
 	   handle_tetriminos.c \
 	   handle_file.c
 

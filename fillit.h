@@ -24,14 +24,14 @@ typedef struct s_tet
 	size_t			height;
 	size_t			left_offset;
 	struct s_tet	*prev;
-	size_t	grid_placement[2];
-} t_tet;
+	size_t			grid_placement[2];
+}					t_tet;
 
 typedef struct s_grid
 {
 	size_t	grid_size;
 	char	grid[32][32];
-} t_grid;
+}				t_grid;
 
 # define USAGE "usage: ./fillit input_file\n"
 
@@ -40,7 +40,7 @@ void	validate_line(char *line, size_t line_no, t_tet *tet);
 void	free_tetriminos(t_tet **tets);
 void	solve(t_tet **tets);
 void	display_solution(t_grid *grid);
-int	ft_sqrt(int nb);
+int		ft_sqrt(int nb);
 void	invalid_input(char *err);
 void	get_prevs(t_tet **tets);
 void	get_dimensions(t_tet **tets);

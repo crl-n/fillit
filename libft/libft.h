@@ -6,7 +6,7 @@
 /*   By: mde-maul <mde-maul@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/29 17:36:20 by mde-maul          #+#    #+#             */
-/*   Updated: 2021/10/31 13:09:22 by mde-maul         ###   ########.fr       */
+/*   Updated: 2022/01/10 20:28:57 by cnysten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void	ft_strclr(char *s);
 void	ft_striter(char *s, void (*f)(char *c));
 void	ft_striteri(char *s, void (*f)(unsigned int i, char *c));
 char	*ft_strmap(char const *s, char (*f)(char c));
-char	*ft_strmapi(char const *s, char(*f)(unsigned int i, char c));
 int		ft_strequ(char const *s1, char const *s2);
 int		ft_strnequ(char const *s1, char const *s2, size_t n);
 char	*ft_strsub(char const *s, unsigned int start, size_t len);

@@ -6,7 +6,9 @@ SRCS = main.c \
 	   solve.c \
 	   display_solution.c \
 	   debugging_functions.c \
-	   ft_sqrt.c
+	   ft_sqrt.c \
+	   handle_tetriminos.c \
+	   handle_file.c
 
 OBJS = $(SRCS:%.c=%.o)
 

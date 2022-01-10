@@ -42,6 +42,10 @@ void	solve(t_tet **tets);
 void	display_solution(t_grid *grid);
 int	ft_sqrt(int nb);
 void	invalid_input(char *err);
+void	get_prevs(t_tet **tets);
+void	get_dimensions(t_tet **tets);
+void	handle_file(char *filename, t_tet **tets);
+t_tet	*new_tetrimino(size_t i);
 
 // debugging functions. DELETE
 void	print_tetrimino(t_tet *tet);

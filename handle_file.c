@@ -6,7 +6,7 @@
 /*   By: mde-maul <mde-maul@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 19:00:31 by mde-maul          #+#    #+#             */
-/*   Updated: 2022/01/10 19:00:33 by mde-maul         ###   ########.fr       */
+/*   Updated: 2022/01/10 20:58:29 by cnysten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,5 @@ void	handle_file(char *filename, t_tet **tets)
 	if (fd < 0)
 		invalid_input();
 	get_tetriminos(fd, tets);
+	close(fd);
 }

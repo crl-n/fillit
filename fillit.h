@@ -6,7 +6,7 @@
 /*   By: cnysten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 14:08:49 by cnysten           #+#    #+#             */
-/*   Updated: 2022/01/06 19:48:34 by cnysten          ###   ########.fr       */
+/*   Updated: 2022/01/10 19:35:32 by cnysten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,10 @@ void	validate_line(char *line, size_t line_no, t_tet *tet);
 void	free_tetriminos(t_tet **tets);
 void	solve(t_tet **tets);
 void	display_solution(t_grid *grid);
-int	ft_sqrt(int nb);
+int		ft_sqrt(int nb);
 void	invalid_input(char *err);
+void	try_solution(t_grid *grid, size_t grid_size, t_tet **tets, size_t i);
+int		tetrimino_fits(t_tet *tet, t_grid *grid, size_t k, size_t l);
 
 // debugging functions. DELETE
 void	print_tetrimino(t_tet *tet);

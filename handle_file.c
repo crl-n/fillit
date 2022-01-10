@@ -55,7 +55,7 @@ void	get_tetriminos(int fd, t_tet **tets)
 		line_no++;
 	}
 	if (line_no % 5 != 0 || line)
-		invalid_input("file should end with empty line");
+		invalid_input();
 }
 
 void	handle_file(char *filename, t_tet **tets)
@@ -64,6 +64,6 @@ void	handle_file(char *filename, t_tet **tets)
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		invalid_input("error");
+		invalid_input();
 	get_tetriminos(fd, tets);
 }

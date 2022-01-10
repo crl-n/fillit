@@ -6,7 +6,7 @@
 /*   By: cnysten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 14:08:49 by cnysten           #+#    #+#             */
-/*   Updated: 2022/01/10 19:35:32 by cnysten          ###   ########.fr       */
+/*   Updated: 2022/01/10 19:42:11 by cnysten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define FILLIT_H
 
 # include "libft/libft.h"
-# include <stdio.h> // DELETE
 
 typedef struct s_tet
 {
@@ -41,6 +40,8 @@ void	free_tetriminos(t_tet **tets);
 void	solve(t_tet **tets);
 void	display_solution(t_grid *grid);
 int		ft_sqrt(int nb);
+void	try_solution(t_grid *grid, size_t grid_size, t_tet **tets, size_t i);
+int		tetrimino_fits(t_tet *tet, t_grid *grid, size_t k, size_t l);
 void	invalid_input(void);
 void	get_prevs(t_tet **tets);
 void	get_dimensions(t_tet **tets);

@@ -18,12 +18,12 @@
 
 typedef struct s_tet
 {
-	char	symbol;
-	int		coords[8];
-	size_t	width;
-	size_t	height;
-	size_t	left_offset;
-	int		prev;
+	char			symbol;
+	int				coords[8];
+	size_t			width;
+	size_t			height;
+	size_t			left_offset;
+	struct s_tet	*prev;
 	size_t	grid_placement[2];
 } t_tet;
 
@@ -32,12 +32,6 @@ typedef struct s_grid
 	size_t	grid_size;
 	char	grid[32][32];
 } t_grid;
-
-typedef struct s_shape
-{
-	int		coords[8];
-	size_t	index;
-} t_shape;
 
 # define USAGE "usage: ./fillit input_file\n"
 
@@ -54,6 +48,5 @@ void	print_tetrimino(t_tet *tet);
 void	print_tetriminos(t_tet **tets);
 void	display_grid(t_grid *grid);
 void	display_solution_prettier(t_grid *grid);
-void	print_shapes(t_shape **shapes);
 
 #endif

@@ -106,10 +106,10 @@ void	try_solution(t_grid *grid, size_t grid_size, t_tet **tets, size_t i)
 	height = tets[i]->height;
 	width = tets[i]->width;
 	tet = tets[i];
-	if (tet->prev != -1)
+	if (tet->prev)
 	{
-		k = (tets[tet->prev])->grid_placement[0];
-		l = (tets[tet->prev])->grid_placement[1];
+		k = tet->prev->grid_placement[0];
+		l = tet->prev->grid_placement[1];
 	}
 	while (k + height - 1 < grid_size)
 	{

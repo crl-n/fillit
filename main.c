@@ -23,7 +23,12 @@ t_tet	*new_tetrimino(size_t i)
 	if (!tet)
 		return (NULL);
 	tet->symbol = 'A' + i;
-	tet->prev = -1;
+	tet->prev = NULL;
+	tet->grid_placement[0] = 0;
+	tet->grid_placement[1] = 0;
+	tet->height = 1;
+	tet->width = 1;
+	tet->left_offset = 0;
 	return (tet);
 }
 
@@ -31,12 +36,14 @@ int	handle_gnl_ret(size_t ret, t_tet **tet, char **line)
 {
 	if (ret == 0)
 	{
-		ft_strdel(line);
 		ft_memdel((void *) tet);
 		return (1);
 	}
 	if (ret < 0)
+	{
+		ft_strdel(line);
 		exit(1);
+	}
 	return (0);
 }
 
@@ -48,9 +55,10 @@ void	get_tetriminos(char *filename, t_tet **tets)
 	size_t	line_no;
 	char	*line;
 
+	line = NULL;
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		exit(1);
+		invalid_input("error");
 	line_no = 1;
 	i = 0;
 	tets[0] = new_tetrimino(0);
@@ -113,67 +121,31 @@ void	get_dimensions(t_tet **tets)
 	}
 }
 
-void	ft_arraypush(void **array, void *el)
+void	get_prevs(t_tet **tets)
 {
 	size_t	i;
+	size_t	j;
 
-	i = 0;
-	while (array[i])
-	{
-		i++;
-	}
-	array[i] = el;
-}
-
-int	shape_in_array(t_shape **shapes, int *coords)
-{
-	size_t	i;
-
-	i = 0;
-	while (shapes[i])
-	{
-		if (ft_memcmp(shapes[i]->coords, coords, 32) == 0)
-		{
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
-int	get_shapes(t_tet **tets, t_shape **shapes)
-{
-	size_t	i;
-	t_shape	*shape;
-
-	i = 0;
+	i = 1;
 	while (tets[i])
 	{
-		if (shape_in_array(shapes, tets[i]->coords))
+		j = i - 1;
+		while (j > 0)
 		{
-			tets[i]->prev = shape->index;
-			shape->index = i;
-		}
-		else
-		{
-			shape = (t_shape *)malloc(sizeof(t_shape));
-			if (!shape) // handle error
-				return (0);
-			ft_memcpy(shape->coords, tets[i]->coords, 32);
-			shape->index = i;
-			ft_arraypush((void **)shapes, shape);
+			if (ft_memcmp(tets[j]->coords, tets[i]->coords, 32) == 0)
+				tets[i]->prev = tets[j];
+			if (j == 0)
+				break;
+			j--;
 		}
 		i++;
 	}
-	return (1);
 }
 
 int	main(int argc, char **argv)
 {
 	t_tet	*tets[27];
-	t_shape	*shapes[30];
 
-	ft_bzero(shapes, sizeof(t_shape *) * 30);
 	if (argc != 2)
 	{
 		ft_putstr(USAGE);
@@ -182,7 +154,7 @@ int	main(int argc, char **argv)
 	ft_bzero(tets, sizeof(t_tet *) * 27);
 	get_tetriminos(argv[1], tets);
 	get_dimensions(tets);
-	get_shapes(tets, shapes);
+	get_prevs(tets);
 	solve(tets);
 	free_tetriminos(tets);
 	return (0);

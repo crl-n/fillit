@@ -16,13 +16,16 @@ OBJS = $(SRCS:%.c=%.o)
 all: $(NAME)
 
 $(NAME):
+	make -C ./libft
 	gcc -Wall -Werror -Wextra -g -c $(SRCS)
 	gcc -Wall -Werror -Wextra -g -o $(NAME) $(OBJS) -L./libft -lft
 
 clean:
 	rm -f $(OBJS)
+	make -C ./libft clean
 
 fclean: clean
 	rm -f $(NAME)
+	make -C ./libft fclean
 
 re: fclean all

@@ -1,17 +1,32 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   debugging_functions.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mde-maul <mde-maul@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/10 19:17:50 by mde-maul          #+#    #+#             */
+/*   Updated: 2022/01/10 19:17:53 by mde-maul         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fillit.h"
-#include <stdio.h>
 
 void	print_tetrimino(t_tet *tet)
 {
-	int 	j;
+	int	j;
 
 	j = 0;
 	while (j < 8)
 	{
-		printf("%d, ", tet->coords[j]);
+		ft_putnbr(tet->coords[j]);
+		if (!(j % 2))
+			ft_putchar(' ');
 		j++;
+		if (!(j % 2) && j != 8)
+			ft_putstr(", ");
 	}
-	printf("\n");
+	ft_putchar('\n');
 }
 
 void	print_tetriminos(t_tet **tets)
@@ -19,20 +34,23 @@ void	print_tetriminos(t_tet **tets)
 	size_t	i;
 
 	i = 0;
-	printf("all the tetriminos:\n");
+	ft_putstr("The tetriminos:\n\n");
 	while (tets[i])
 	{
 		print_tetrimino(tets[i]);
+		ft_putchar('\n');
 		i++;
 	}
 }
 
 void	display_grid(t_grid *grid)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
-	printf("\ngrid size is: %zu\n", grid->grid_size);
+	ft_putstr("\ngrid size is: ");
+	ft_putnbr((int)grid->grid_size);
+	ft_putchar('\n');
 	while (i < grid->grid_size)
 	{
 		write(1, grid->grid[i], grid->grid_size);

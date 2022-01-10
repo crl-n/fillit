@@ -24,14 +24,14 @@ typedef struct s_tet
 	size_t			height;
 	size_t			left_offset;
 	struct s_tet	*prev;
-	size_t	grid_placement[2];
-} t_tet;
+	size_t			grid_placement[2];
+}					t_tet;
 
 typedef struct s_grid
 {
 	size_t	grid_size;
 	char	grid[32][32];
-} t_grid;
+}				t_grid;
 
 # define USAGE "usage: ./fillit input_file\n"
 
@@ -41,9 +41,11 @@ void	free_tetriminos(t_tet **tets);
 void	solve(t_tet **tets);
 void	display_solution(t_grid *grid);
 int		ft_sqrt(int nb);
-void	invalid_input(char *err);
-void	try_solution(t_grid *grid, size_t grid_size, t_tet **tets, size_t i);
-int		tetrimino_fits(t_tet *tet, t_grid *grid, size_t k, size_t l);
+void	invalid_input(void);
+void	get_prevs(t_tet **tets);
+void	get_dimensions(t_tet **tets);
+void	handle_file(char *filename, t_tet **tets);
+t_tet	*new_tetrimino(size_t i);
 
 // debugging functions. DELETE
 void	print_tetrimino(t_tet *tet);

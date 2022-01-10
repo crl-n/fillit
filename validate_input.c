@@ -12,13 +12,9 @@
 
 #include "fillit.h"
 
-void	invalid_input(char *err)
+void	invalid_input(void)
 {
-	// 	DELETE
-	(void)err;
-	//printf("%s ", err);
 	ft_putstr("error\n");
-	// It might be necessary to free some stuff here
 	exit(1);
 }
 
@@ -29,7 +25,7 @@ void	handle_block(int *block_count, t_tet *tet, size_t line_no,
 
 	(*block_count)++;
 	if (*block_count > 4)
-		invalid_input("too many blocks");
+		invalid_input();
 	if (*block_count == 1)
 	{
 		tet->coords[0] = 0;
@@ -63,7 +59,7 @@ void	validate_line(char *line, size_t line_no, t_tet *tet)
 	{
 		block_count = 0;
 		if (*line != '\0')
-			invalid_input("not empty line between tetriminos");
+			invalid_input();
 	}
 	else
 	{
@@ -71,15 +67,15 @@ void	validate_line(char *line, size_t line_no, t_tet *tet)
 		while (line[j])
 		{
 			if (j > 3)
-				invalid_input("too long line");
+				invalid_input();
 			if (line[j] != '.' && line[j] != '#')
-				invalid_input("invalid character");
+				invalid_input();
 			if (line[j] == '#')
 				handle_block(&block_count, tet, line_no, j);
 			j++;
 		}
 		if (j != 4)
-			invalid_input("too short line");
+			invalid_input();
 	}
 }
 
@@ -138,5 +134,5 @@ void	validate_tetrimino(t_tet *tet)
 	}
 	ft_memdel((void *) &dists);
 	if (ones < 3)
-		invalid_input("all tetrimino blocks are not connected\n");
+		invalid_input();
 }

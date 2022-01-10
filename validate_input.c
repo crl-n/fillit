@@ -15,7 +15,8 @@
 void	invalid_input(char *err)
 {
 	// 	DELETE
-	printf("%s ", err);
+	(void)err;
+	//printf("%s ", err);
 	ft_putstr("error\n");
 	// It might be necessary to free some stuff here
 	exit(1);
@@ -101,7 +102,7 @@ void	fill_dists(t_tet *tet, int *dists)
 		while (j < 7)
 		{
 			dists[k++] = (tet->coords[j] - tet->coords[i]) + \
-				(tet->coords[j + 1] - tet->coords[i + 1]);
+				ft_abs((tet->coords[j + 1] - tet->coords[i + 1]));
 			j += 2;
 		}
 		i += 2;

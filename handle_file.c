@@ -13,7 +13,7 @@
 #include "fillit.h"
 #include "fcntl.h"
 
-int	handle_gnl_ret(size_t ret, t_tet **tet, char **line)
+int	handle_gnl_ret(int ret, t_tet **tet, char **line)
 {
 	if (ret == 0)
 	{
@@ -23,7 +23,7 @@ int	handle_gnl_ret(size_t ret, t_tet **tet, char **line)
 	if (ret < 0)
 	{
 		ft_strdel(line);
-		exit(1);
+		invalid_input();
 	}
 	return (0);
 }

@@ -30,31 +30,24 @@ int	handle_gnl_ret(int ret, t_tet **tet, char **line)
 
 void	get_tetriminos(int fd, t_tet **tets)
 {
-	size_t	i;
-	int		ret;
-	char	*line;
-	size_t	line_no;
+	ssize_t		i;
+	ssize_t		ret;
+	char		buff[547];
 
-	i = 0;
-	line = NULL;
-	line_no = 1;
-	tets[0] = new_tetrimino(0);
-	while (1)
-	{
-		if (line_no % 5 == 0)
-		{
-			validate_tetrimino(tets[i++]);
-			tets[i] = new_tetrimino(i);
-		}
-		ret = get_next_line(fd, &line);
-		if (handle_gnl_ret(ret, &(tets[i]), &line))
-			break ;
-		validate_line(line, line_no, tets[i]);
-		ft_strdel(&line);
-		line_no++;
-	}
-	if (line_no % 5 != 0 || line)
+	ret = read(fd, buff, 546);
+	if (ret <= 0 || ret == 546 || ((ret + 1) % 21 != 0))
 		invalid_input();
+	if (buff[ret - 1] == '\n' && buff[ret - 2] == '\n')
+		invalid_input();
+	buff[ret] = '\n';
+	buff[ret + 1] = '\0';
+	i = 0;
+	while (i < ret)
+	{
+		tets[i / 21] = new_tetrimino(i / 21);
+		validate_tet_map(buff, i, tets[i / 21]);
+		i += 21;
+	}
 }
 
 void	handle_file(char *filename, t_tet **tets)

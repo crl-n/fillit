@@ -35,7 +35,7 @@ typedef struct s_grid
 # define USAGE "usage: ./fillit input_file\n"
 
 void	validate_tetrimino(t_tet *tet);
-void	validate_line(char *line, size_t line_no, t_tet *tet);
+void	validate_tet_map(char *buff, ssize_t i, t_tet *tet);
 void	free_tetriminos(t_tet **tets);
 void	solve(t_tet **tets);
 void	display_solution(t_grid *grid);

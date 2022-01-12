@@ -18,8 +18,7 @@ void	invalid_input(void)
 	exit(1);
 }
 
-void	handle_block(int *block_count, t_tet *tet, size_t line_no,
-	int j)
+void	handle_block(size_t *block_count, t_tet *tet, int j)
 {
 	static int		first_coord[2];
 
@@ -30,19 +29,18 @@ void	handle_block(int *block_count, t_tet *tet, size_t line_no,
 	{
 		tet->coords[0] = 0;
 		tet->coords[1] = 0;
-		first_coord[0] = (int)(line_no % 5) - 1;
-		first_coord[1] = j;
+		first_coord[0] = (int)j / 5;
+		first_coord[1] = j % 5;
 	}
 	if (*block_count > 1)
 	{
-		tet->coords[(*block_count - 2) * 2 + 2] = (line_no % 5) - 1 - \
-			first_coord[0];
-		tet->coords[(*block_count - 2) * 2 + 2 + 1] = j - first_coord[1];
+		tet->coords[(*block_count - 2) * 2 + 2] = (int)j / 5 - first_coord[0];
+		tet->coords[(*block_count - 2) * 2 + 2 + 1] = j % 5 - first_coord[1];
 	}
 }
 
 /*
- * The function validate_line() checks if:
+ * The function validate_tet_map() checks if:
  * 		∙ Lines between tetriminos are empty
  * 		∙ Each line consists of valid characters
  * 		∙ Lines are of correct length
@@ -50,33 +48,30 @@ void	handle_block(int *block_count, t_tet *tet, size_t line_no,
  * validate_line() also calls handle_block() when a block is found.
  */
 
-void	validate_line(char *line, size_t line_no, t_tet *tet)
+void	validate_tet_map(char *buff, ssize_t i, t_tet *tet)
 {
-	static int		block_count;
-	int				j;
+	ssize_t			j;
+	static size_t	block_count;
 
-	if (line_no % 5 == 0)
+	j = 0;
+	block_count = 0;
+	if (buff[i + 4] != '\n' || buff[i + 9] != '\n' || buff[i + 14] != '\n' \
+		|| buff[i + 19] != '\n' || buff[i + 20] != '\n')
+		invalid_input();
+	while (j < 21)
 	{
-		block_count = 0;
-		if (*line != '\0')
-			invalid_input();
-	}
-	else
-	{
-		j = 0;
-		while (line[j])
+		if (j == 4 || j == 9 || j == 14 || j == 19 || j == 20)
 		{
-			if (j > 3)
-				invalid_input();
-			if (line[j] != '.' && line[j] != '#')
-				invalid_input();
-			if (line[j] == '#')
-				handle_block(&block_count, tet, line_no, j);
 			j++;
+			continue ;
 		}
-		if (j != 4)
+		if (buff[j + i] != '#' && buff[j + i] != '.')
 			invalid_input();
+		if (buff[j + i] == '#')
+			handle_block(&block_count, tet, j);
+		j++;
 	}
+	validate_tetrimino(tet);
 }
 
 /*

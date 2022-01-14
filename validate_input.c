@@ -12,19 +12,20 @@
 
 #include "fillit.h"
 
-void	invalid_input(void)
+void	invalid_input(t_tet **tets)
 {
+	free_tetriminos(tets);
 	ft_putstr("error\n");
 	exit(1);
 }
 
-void	handle_block(size_t *block_count, t_tet *tet, int j)
+void	handle_block(size_t *block_count, t_tet *tet, int j, t_tet **tets)
 {
 	static int		first_coord[2];
 
 	(*block_count)++;
 	if (*block_count > 4)
-		invalid_input();
+		invalid_input(tets);
 	if (*block_count == 1)
 	{
 		tet->coords[0] = 0;
@@ -48,7 +49,7 @@ void	handle_block(size_t *block_count, t_tet *tet, int j)
  * validate_line() also calls handle_block() when a block is found.
  */
 
-void	validate_tet_map(char *buff, ssize_t i, t_tet *tet)
+void	validate_tet_map(char *buff, ssize_t i, t_tet *tet, t_tet **tets)
 {
 	ssize_t			j;
 	static size_t	block_count;
@@ -57,7 +58,7 @@ void	validate_tet_map(char *buff, ssize_t i, t_tet *tet)
 	block_count = 0;
 	if (buff[i + 4] != '\n' || buff[i + 9] != '\n' || buff[i + 14] != '\n' \
 		|| buff[i + 19] != '\n' || buff[i + 20] != '\n')
-		invalid_input();
+		invalid_input(tets);
 	while (j < 21)
 	{
 		if (j == 4 || j == 9 || j == 14 || j == 19 || j == 20)
@@ -66,12 +67,12 @@ void	validate_tet_map(char *buff, ssize_t i, t_tet *tet)
 			continue ;
 		}
 		if (buff[j + i] != '#' && buff[j + i] != '.')
-			invalid_input();
+			invalid_input(tets);
 		if (buff[j + i] == '#')
-			handle_block(&block_count, tet, j);
+			handle_block(&block_count, tet, j, tets);
 		j++;
 	}
-	validate_tetrimino(tet);
+	validate_tetrimino(tet, tets);
 }
 
 /*
@@ -109,7 +110,7 @@ void	fill_dists(t_tet *tet, int *dists)
  * of 1. If it has less, there is at least one gap between blocks.
  */
 
-void	validate_tetrimino(t_tet *tet)
+void	validate_tetrimino(t_tet *tet, t_tet **tets)
 {
 	size_t	ones;
 	size_t	i;
@@ -129,5 +130,5 @@ void	validate_tetrimino(t_tet *tet)
 	}
 	ft_memdel((void *) &dists);
 	if (ones < 3)
-		invalid_input();
+		invalid_input(tets);
 }

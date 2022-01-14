@@ -13,21 +13,6 @@
 #include "fillit.h"
 #include "fcntl.h"
 
-int	handle_gnl_ret(int ret, t_tet **tet, char **line)
-{
-	if (ret == 0)
-	{
-		ft_memdel((void *) tet);
-		return (1);
-	}
-	if (ret < 0)
-	{
-		ft_strdel(line);
-		invalid_input();
-	}
-	return (0);
-}
-
 void	get_tetriminos(int fd, t_tet **tets)
 {
 	ssize_t		i;
@@ -36,16 +21,16 @@ void	get_tetriminos(int fd, t_tet **tets)
 
 	ret = read(fd, buff, 546);
 	if (ret <= 0 || ret == 546 || ((ret + 1) % 21 != 0))
-		invalid_input();
+		invalid_input(tets);
 	if (buff[ret - 1] == '\n' && buff[ret - 2] == '\n')
-		invalid_input();
+		invalid_input(tets);
 	buff[ret] = '\n';
 	buff[ret + 1] = '\0';
 	i = 0;
 	while (i < ret)
 	{
 		tets[i / 21] = new_tetrimino(i / 21);
-		validate_tet_map(buff, i, tets[i / 21]);
+		validate_tet_map(buff, i, tets[i / 21], tets);
 		i += 21;
 	}
 }
@@ -56,7 +41,7 @@ void	handle_file(char *filename, t_tet **tets)
 
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		invalid_input();
+		invalid_input(tets);
 	get_tetriminos(fd, tets);
 	close(fd);
 }

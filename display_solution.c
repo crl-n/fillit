@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "fillit.h"
+#include <unistd.h>
 
 /*
  * display_solution() is used to display the solution when the correct

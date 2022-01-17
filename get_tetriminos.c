@@ -12,6 +12,7 @@
 
 #include "fillit.h"
 #include <unistd.h>
+#include <stdlib.h>
 
 t_tet	*new_tetrimino(size_t i, t_tet **tets)
 {

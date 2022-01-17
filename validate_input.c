@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "fillit.h"
-#include <unistd.h>
+#include <stdlib.h>
 
 /*
  * The function fill_dists() gets the Manhattan distances used in

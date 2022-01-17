@@ -13,13 +13,13 @@
 #include "fillit.h"
 #include <unistd.h>
 
-t_tet	*new_tetrimino(size_t i)
+t_tet	*new_tetrimino(size_t i, t_tet **tets)
 {
 	t_tet	*tet;
 
 	tet = (t_tet *) malloc(sizeof (t_tet));
 	if (!tet)
-		return (NULL);
+		handle_error(tets);
 	tet->symbol = 'A' + i;
 	tet->prev = NULL;
 	tet->grid_placement[0] = 0;
@@ -46,7 +46,7 @@ void	get_tetriminos(int fd, t_tet **tets)
 	i = 0;
 	while (i < ret)
 	{
-		tets[i / 21] = new_tetrimino(i / 21);
+		tets[i / 21] = new_tetrimino(i / 21, tets);
 		validate_tet_map(buff, i, tets[i / 21], tets);
 		i += 21;
 	}

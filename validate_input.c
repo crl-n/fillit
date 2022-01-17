@@ -120,10 +120,7 @@ void	validate_tetrimino(t_tet *tet, t_tet **tets)
 	ones = 0;
 	dists = (int *) malloc(sizeof (int) * 6);
 	if (!dists)
-	{
-		free_tetriminos(tets);
-		exit(1);
-	}
+		invalid_input(tets);
 	fill_dists(tet, dists);
 	while (i < 6)
 	{

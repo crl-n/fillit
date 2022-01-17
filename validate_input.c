@@ -11,6 +11,65 @@
 /* ************************************************************************** */
 
 #include "fillit.h"
+#include <unistd.h>
+
+/*
+ * The function fill_dists() gets the Manhattan distances used in
+ * validate_tetrimino().
+ */
+
+void	fill_dists(t_tet *tet, int *dists)
+{
+	size_t	i;
+	size_t	j;
+	size_t	k;
+
+	i = 0;
+	k = 0;
+	while (i < 7)
+	{
+		j = i + 2;
+		while (j < 7)
+		{
+			dists[k++] = (tet->coords[j] - tet->coords[i]) + \
+				ft_abs((tet->coords[j + 1] - tet->coords[i + 1]));
+			j += 2;
+		}
+		i += 2;
+	}
+}
+
+/*
+ * The function validate_tetrimino() checks if all blocks in a tetrimino
+ * are connected to each other.
+ *
+ * The int array dists contains the Manhattan distances of each tetrimino
+ * block to each other. A valid tetrimino will have either 3 or 4 distances
+ * of 1. If it has less, there is at least one gap between blocks.
+ */
+
+void	validate_tetrimino(t_tet *tet, t_tet **tets)
+{
+	size_t	ones;
+	size_t	i;
+	int		*dists;
+
+	i = 0;
+	ones = 0;
+	dists = (int *) malloc(sizeof (int) * 6);
+	if (!dists)
+		handle_error(tets);
+	fill_dists(tet, dists);
+	while (i < 6)
+	{
+		if (dists[i] == 1)
+			ones++;
+		i++;
+	}
+	ft_memdel((void *) &dists);
+	if (ones < 3)
+		handle_error(tets);
+}
 
 void	handle_block(size_t *block_count, t_tet *tet, int j, t_tet **tets)
 {
@@ -66,62 +125,4 @@ void	validate_tet_map(char *buff, ssize_t i, t_tet *tet, t_tet **tets)
 		j++;
 	}
 	validate_tetrimino(tet, tets);
-}
-
-/*
- * The function get_dists() gets the Manhattan distances used in
- * validate_tetrimino().
- */
-
-void	fill_dists(t_tet *tet, int *dists)
-{
-	size_t	i;
-	size_t	j;
-	size_t	k;
-
-	i = 0;
-	k = 0;
-	while (i < 7)
-	{
-		j = i + 2;
-		while (j < 7)
-		{
-			dists[k++] = (tet->coords[j] - tet->coords[i]) + \
-				ft_abs((tet->coords[j + 1] - tet->coords[i + 1]));
-			j += 2;
-		}
-		i += 2;
-	}
-}
-
-/*
- * The function validate_tetrimino() checks if all blocks in a tetrimino
- * are connected to each other.
- *
- * The int array dists contains the Manhattan distances of each tetrimino
- * block to each other. A valid tetrimino will have either 3 or 4 distances
- * of 1. If it has less, there is at least one gap between blocks.
- */
-
-void	validate_tetrimino(t_tet *tet, t_tet **tets)
-{
-	size_t	ones;
-	size_t	i;
-	int		*dists;
-
-	i = 0;
-	ones = 0;
-	dists = (int *) malloc(sizeof (int) * 6);
-	if (!dists)
-		handle_error(tets);
-	fill_dists(tet, dists);
-	while (i < 6)
-	{
-		if (dists[i] == 1)
-			ones++;
-		i++;
-	}
-	ft_memdel((void *) &dists);
-	if (ones < 3)
-		handle_error(tets);
 }

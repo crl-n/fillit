@@ -12,20 +12,13 @@
 
 #include "fillit.h"
 
-void	invalid_input(t_tet **tets)
-{
-	free_tetriminos(tets);
-	ft_putstr("error\n");
-	exit(1);
-}
-
 void	handle_block(size_t *block_count, t_tet *tet, int j, t_tet **tets)
 {
 	static int		first_coord[2];
 
 	(*block_count)++;
 	if (*block_count > 4)
-		invalid_input(tets);
+		handle_error(tets);
 	if (*block_count == 1)
 	{
 		tet->coords[0] = 0;
@@ -58,7 +51,7 @@ void	validate_tet_map(char *buff, ssize_t i, t_tet *tet, t_tet **tets)
 	block_count = 0;
 	if (buff[i + 4] != '\n' || buff[i + 9] != '\n' || buff[i + 14] != '\n' \
 		|| buff[i + 19] != '\n' || buff[i + 20] != '\n')
-		invalid_input(tets);
+		handle_error(tets);
 	while (j < 21)
 	{
 		if (j == 4 || j == 9 || j == 14 || j == 19 || j == 20)
@@ -67,7 +60,7 @@ void	validate_tet_map(char *buff, ssize_t i, t_tet *tet, t_tet **tets)
 			continue ;
 		}
 		if (buff[j + i] != '#' && buff[j + i] != '.')
-			invalid_input(tets);
+			handle_error(tets);
 		if (buff[j + i] == '#')
 			handle_block(&block_count, tet, j, tets);
 		j++;
@@ -120,7 +113,7 @@ void	validate_tetrimino(t_tet *tet, t_tet **tets)
 	ones = 0;
 	dists = (int *) malloc(sizeof (int) * 6);
 	if (!dists)
-		invalid_input(tets);
+		handle_error(tets);
 	fill_dists(tet, dists);
 	while (i < 6)
 	{
@@ -130,5 +123,5 @@ void	validate_tetrimino(t_tet *tet, t_tet **tets)
 	}
 	ft_memdel((void *) &dists);
 	if (ones < 3)
-		invalid_input(tets);
+		handle_error(tets);
 }

@@ -1,37 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_prevs.c                                        :+:      :+:    :+:   */
+/*   free_tetriminos.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mde-maul <mde-maul@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/17 13:52:06 by mde-maul          #+#    #+#             */
-/*   Updated: 2022/01/17 13:52:09 by mde-maul         ###   ########.fr       */
+/*   Created: 2022/01/17 13:58:29 by mde-maul          #+#    #+#             */
+/*   Updated: 2022/01/17 13:58:31 by mde-maul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
+#include <stdlib.h>
 
-void	get_prevs(t_tet **tets)
+void	free_tetriminos(t_tet **tets)
 {
 	size_t	i;
-	size_t	j;
 
-	i = 1;
+	i = 0;
 	while (tets[i])
-	{
-		j = i - 1;
-		while (j >= 0)
-		{
-			if (ft_memcmp(tets[j]->coords, tets[i]->coords, 32) == 0)
-			{
-				tets[i]->prev = tets[j];
-				break ;
-			}
-			if (j == 0)
-				break ;
-			j--;
-		}
-		i++;
-	}
+		free(tets[i++]);
 }

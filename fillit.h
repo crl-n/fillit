@@ -41,10 +41,11 @@ void	solve(t_tet **tets);
 void	display_solution(t_grid *grid);
 void	try_solution(t_grid *grid, size_t grid_size, t_tet **tets, size_t i);
 int		tetrimino_fits(t_tet *tet, t_grid *grid, size_t k, size_t l);
-void	invalid_input(t_tet **tets);
+void	handle_error(t_tet **tets);
 void	get_prevs(t_tet **tets);
 void	get_dimensions(t_tet **tets);
 void	handle_file(char *filename, t_tet **tets);
 t_tet	*new_tetrimino(size_t i);
+void	get_tetriminos(int fd, t_tet **tets);
 
 #endif

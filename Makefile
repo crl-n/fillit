@@ -18,7 +18,8 @@ SRCS = main.c \
 	   tetrimino_fits.c \
 	   try_solution.c \
 	   display_solution.c \
-	   handle_tetriminos.c \
+	   get_dimensions.c \
+	   get_prevs.c \
 	   handle_file.c
 
 OBJS = $(SRCS:%.c=%.o)
@@ -27,8 +28,8 @@ all: $(NAME)
 
 $(NAME):
 	make -C ./libft
-	gcc -Wall -Werror -Wextra -c $(SRCS)
-	gcc -Wall -Werror -Wextra -o $(NAME) $(OBJS) -L./libft -lft
+	gcc -Wall -Werror -Wextra -g -c $(SRCS)
+	gcc -Wall -Werror -Wextra -g -o $(NAME) $(OBJS) -L./libft -lft
 
 clean:
 	rm -f $(OBJS)

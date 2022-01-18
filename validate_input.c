@@ -52,13 +52,10 @@ void	validate_tetrimino(t_tet *tet, t_tet **tets)
 {
 	size_t	ones;
 	size_t	i;
-	int		*dists;
+	int		dists[6];
 
 	i = 0;
 	ones = 0;
-	dists = (int *) malloc(sizeof (int) * 6);
-	if (!dists)
-		handle_error(tets);
 	fill_dists(tet, dists);
 	while (i < 6)
 	{
@@ -66,7 +63,6 @@ void	validate_tetrimino(t_tet *tet, t_tet **tets)
 			ones++;
 		i++;
 	}
-	ft_memdel((void *) &dists);
 	if (ones < 3)
 		handle_error(tets);
 }

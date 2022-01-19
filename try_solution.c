@@ -6,7 +6,7 @@
 /*   By: cnysten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 19:32:12 by cnysten           #+#    #+#             */
-/*   Updated: 2022/01/10 19:32:56 by cnysten          ###   ########.fr       */
+/*   Updated: 2022/01/19 13:50:45 by cnysten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * remove_tetrimino() resets the characters in the grid to '.'.
  */
 
-void	remove_tetrimino(t_tet *tet, t_grid *grid, size_t k, size_t l)
+static void	remove_tetrimino(t_tet *tet, t_grid *grid, size_t k, size_t l)
 {
 	size_t	j;
 	size_t	row;
@@ -38,7 +38,7 @@ void	remove_tetrimino(t_tet *tet, t_grid *grid, size_t k, size_t l)
  * solution is displayed and heap allocated memory is freed.
  */
 
-void	check_if_solved(t_tet *tet, t_tet **tets, t_grid *grid)
+static void	check_if_solved(t_tet *tet, t_tet **tets, t_grid *grid)
 {
 	if (!tet)
 	{
@@ -48,7 +48,7 @@ void	check_if_solved(t_tet *tet, t_tet **tets, t_grid *grid)
 	}
 }
 
-void	set_start(size_t *k, size_t *l, t_tet *tet)
+static void	set_start(size_t *k, size_t *l, t_tet *tet)
 {
 	*k = 0;
 	*l = 0 + tet->left_offset;

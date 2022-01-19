@@ -6,7 +6,7 @@
 /*   By: cnysten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 15:27:38 by cnysten           #+#    #+#             */
-/*   Updated: 2022/01/06 19:50:19 by cnysten          ###   ########.fr       */
+/*   Updated: 2022/01/19 13:48:48 by cnysten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * validate_tetrimino().
  */
 
-void	fill_dists(t_tet *tet, int *dists)
+static void	fill_dists(t_tet *tet, int *dists)
 {
 	size_t	i;
 	size_t	j;
@@ -48,7 +48,7 @@ void	fill_dists(t_tet *tet, int *dists)
  * of 1. If it has less, there is at least one gap between blocks.
  */
 
-void	validate_tetrimino(t_tet *tet, t_tet **tets)
+static void	validate_tetrimino(t_tet *tet, t_tet **tets)
 {
 	size_t	ones;
 	size_t	i;
@@ -67,7 +67,7 @@ void	validate_tetrimino(t_tet *tet, t_tet **tets)
 		handle_error(tets);
 }
 
-void	handle_block(size_t *block_count, t_tet *tet, int j, t_tet **tets)
+static void	handle_block(size_t *block_count, t_tet *tet, int j, t_tet **tets)
 {
 	static int		first_coord[2];
 
@@ -89,12 +89,10 @@ void	handle_block(size_t *block_count, t_tet *tet, int j, t_tet **tets)
 }
 
 /*
- * The function validate_tet_map() checks if:
- * 		∙ Lines between tetriminos are empty
- * 		∙ Each line consists of valid characters
+ * The function validate_tet_map() checks:
+ * 		∙ Newlines between tetriminos
+ * 		∙ Lines consist of hashtags and dots
  * 		∙ Lines are of correct length
- *
- * validate_line() also calls handle_block() when a block is found.
  */
 
 void	validate_tet_map(char *buff, ssize_t i, t_tet *tet, t_tet **tets)

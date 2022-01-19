@@ -6,13 +6,13 @@
 /*   By: mde-maul <mde-maul@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 18:57:38 by mde-maul          #+#    #+#             */
-/*   Updated: 2022/01/10 18:57:42 by mde-maul         ###   ########.fr       */
+/*   Updated: 2022/01/19 13:49:25 by cnysten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-void	calc_dimensions(t_tet **tets, size_t i)
+static void	calc_dimensions(t_tet **tets, size_t i)
 {
 	size_t	j;
 	int		leftmost;

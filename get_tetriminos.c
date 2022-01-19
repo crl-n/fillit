@@ -6,7 +6,7 @@
 /*   By: mde-maul <mde-maul@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 19:00:31 by mde-maul          #+#    #+#             */
-/*   Updated: 2022/01/10 20:58:29 by cnysten          ###   ########.fr       */
+/*   Updated: 2022/01/19 13:43:04 by cnysten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 
-t_tet	*new_tetrimino(size_t i, t_tet **tets)
+static t_tet	*new_tetrimino(size_t i, t_tet **tets)
 {
 	t_tet	*tet;
 

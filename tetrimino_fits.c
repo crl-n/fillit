@@ -6,19 +6,19 @@
 /*   By: cnysten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 19:29:15 by cnysten           #+#    #+#             */
-/*   Updated: 2022/01/10 19:29:50 by cnysten          ###   ########.fr       */
+/*   Updated: 2022/01/19 13:51:44 by cnysten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-void	update_grid_placement(t_tet *tet, size_t k, size_t l)
+static void	update_grid_placement(t_tet *tet, size_t k, size_t l)
 {
 	tet->grid_placement[0] = k;
 	tet->grid_placement[1] = l;
 }
 
-int	is_collision(size_t	row, size_t col, t_grid *grid)
+static int	is_collision(size_t	row, size_t col, t_grid *grid)
 {
 	if (row >= grid->grid_size)
 		return (1);

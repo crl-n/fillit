@@ -6,7 +6,7 @@
 #    By: cnysten <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/11 19:13:25 by cnysten           #+#    #+#              #
-#    Updated: 2022/01/11 19:13:30 by cnysten          ###   ########.fr        #
+#    Updated: 2022/01/19 13:35:50 by cnysten          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,8 @@ all: $(NAME)
 
 $(NAME):
 	make -C ./libft
-	gcc -Wall -Werror -Wextra -g -c $(SRCS)
-	gcc -Wall -Werror -Wextra -g -o $(NAME) $(OBJS) -L./libft -lft
+	gcc -Wall -Werror -Wextra -c $(SRCS)
+	gcc -Wall -Werror -Wextra -o $(NAME) $(OBJS) -L./libft -lft
 
 clean:
 	rm -f $(OBJS)
